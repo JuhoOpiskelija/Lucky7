@@ -1,8 +1,9 @@
 import java.util.Random;
+import java.util.Scanner;
 public class App {
     public static void main(String[] args) throws Exception { 
         //Säätöpöytä
-        int rahat = 5;
+        int panos = 0;
         int maksu = 1;
         int arvottavat_numerot = 3;
         int numero = 0;
@@ -12,11 +13,15 @@ public class App {
         int voitto_summa = 3;
         int voitto_bonus = 2;
         int voitto = 0;
+        String haluaa_pelata = "";
         Random random_m = new Random();
-        //Peli | Pyörii automaattisesti kunnes rahat eivät riitä pelaamiseen.
-        while (rahat >= maksu) {
-            System.out.println("Rahaa: " + rahat + "e | -" + maksu + "e");
-            rahat = rahat - maksu; 
+        Scanner in = new Scanner(System.in);
+        System.out.println("Rahamäärä?");
+        panos = Integer.parseInt(in.nextLine());
+        //Peli    
+        while ((haluaa_pelata.equals("") && panos >= maksu)) {
+            System.out.println("Rahaa: " + panos + "e | -" + maksu + "e");
+            panos = panos - maksu; 
             for (int i = 0; i < arvottavat_numerot; i++) {
                 numero = random_m.nextInt(10);
                 numero++;
@@ -33,9 +38,9 @@ public class App {
             //Palkintojen jako
             if (voittavia_numeroita > 0) {
                 voitto = 1;
-                rahat = rahat + voitto_summa;
+                panos = panos + voitto_summa;
                 for (int i = 1; i < voittavia_numeroita; i++) {
-                    rahat = rahat + voitto_bonus;
+                    panos = panos + voitto_bonus;
                 }
             }
             if (voitto == 1) {
@@ -46,6 +51,13 @@ public class App {
             }
             voittavia_numeroita = 0;
             voitto = 0;
+            haluaa_pelata = "0";
+            System.out.println("Haluatko pelata uudestaan?");
+            haluaa_pelata = in.nextLine();
+            if (haluaa_pelata.equals("e")) {
+                System.out.println("Lopetetaan peli.");
+                break;
+            }
         }
     }
 }
